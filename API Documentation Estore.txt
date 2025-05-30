@@ -1,0 +1,195 @@
+API Documentation
+
+http://localhost:5000/ - BASE URL
+
+PRODUCTS APIs
+
+POST /v1/products
+Description:
+Create a new product with its variants.
+
+Request body 
+{
+  "title": "T-Shirt",
+  "description": "Comfortable cotton tee",
+  "base_price": 20,
+  "image": "https://example.com/tshirt.jpg",
+  "variants": [
+    {
+      "name": "Size",
+      "value": "M",
+      "price": 0,
+      "stock": 50,
+      "image": null
+    },
+    {
+      "name": "Size",
+      "value": "L",
+      "price": 2,
+      "stock": 30,
+      "image": null
+    }
+  ]
+}
+
+
+
+GET /v1/products/:id
+Description:
+Fetch a single product by ID, including all its variants.
+
+Response {
+  "id": 1,
+  "title": "T-Shirt",
+  "description": "Comfortable cotton tee",
+  "base_price": 20,
+  "image": "https://example.com/tshirt.jpg",
+  "created_at": "2024-06-01T10:00:00Z",
+  "updated_at": "2024-06-01T10:00:00Z",
+  "variants": [
+    {
+      "name": "Size",
+      "value": "M",
+      "price": 0,
+      "stock": 50,
+      "image": null
+    }
+  ]
+}
+
+
+GET /v1/products
+Description:
+Fetch all products along with their variants.
+
+Respoonse
+[
+  {
+    "id": 1,
+    "title": "T-Shirt",
+    "description": "Comfortable cotton tee",
+    "base_price": 20,
+    "image": "https://example.com/tshirt.jpg",
+    "created_at": "2024-06-01T10:00:00Z",
+    "updated_at": "2024-06-01T10:00:00Z",
+    "variants": [
+      {
+        "name": "Size",
+        "value": "M",
+        "price": 0,
+        "stock": 50,
+        "image": null
+      }
+    ]
+  }
+]
+
+
+ORDEER APIs
+
+POST /v1/orders
+Create a New Order
+Creates an order with customer details, list of products, and variant selections.
+
+Request Body
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "phone": "1234567890",
+  "address": "123 Main Street",
+  "city": "Dublin",
+  "state": "Leinster",
+  "zip_code": "D01X2Y2",
+  "cardNumber": "1111111111111111",
+  "items": [
+    {
+      "productId": 1,
+      "variants": [
+        { "name": "Size", "value": "M" }
+      ],
+      "quantity": 2
+    }
+  ],
+  "totalAmount": 42,
+  "taxAmount": 2,
+  "shippingCost": 5
+}
+
+Card Number	        Result
+1111111111111111	approved
+2222222222222222	declined
+3333333333333333	error
+
+
+SUcess respons 
+{
+  "order_number": "ORD-1717067332962",
+  "status": "approved"
+}
+
+Error Responses
+Code	Message
+400	Missing required fields
+400	Invalid or unsupported card number
+404	Product or variant not found
+500	Order processing failed
+
+
+POST /v1/orders/get-order
+Get Order by Order Number
+Fetch the full details of a specific order using its unique order_number.
+
+Request Body
+{
+  "order_number": "ORD-1717067332962"
+}
+
+
+Response 
+{
+  "order_number": "ORD-1717067332962",
+  "name": "John Doe",
+  "email": "john@example.com",
+  "phone": "1234567890",
+  "address": "123 Main Street",
+  "city": "Dublin",
+  "state": "Leinster",
+  "zip_code": "D01X2Y2",
+  "total_price": 42,
+  "status": "approved",
+  "items": [
+    {
+      "product_id": 1,
+      "variant_name": "Size",
+      "variant_value": "M",
+      "quantity": 2,
+      "price_per_item": 20,
+      "subtotal": 40,
+      "product_title": "T-Shirt",
+      "product_image": "https://example.com/image.jpg"
+    }
+  ]
+}
+Error Responses
+Code	Message
+400	Order number is required
+404	Order not found
+500	Internal Server Error
+
+
+
+
+Email Notification
+
+Includes:
+
+Customer name & email
+
+Order number and status
+
+Product titles, variants, images
+
+Total, tax, shipping costs
+
+
+
