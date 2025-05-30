@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                                // Use modern JS features
+    "module": "CommonJS",                           // For Node.js module system
+    "strict": true,                                 // Enable all strict type-checking options
+    "esModuleInterop": true,                        // Allow default import compatibility
+    "forceConsistentCasingInFileNames": true,       // Enforce consistent casing
+    "moduleResolution": "node",                     // Resolve Node-style modules
+    "baseUrl": "./src",                             // Base path for imports
+    "outDir": "./dist",                             // Output directory after compile
+    "skipLibCheck": true                            // Improve build speed by skipping type checks on node_modules
+  },
+  "include": ["src/**/*"]
+}
